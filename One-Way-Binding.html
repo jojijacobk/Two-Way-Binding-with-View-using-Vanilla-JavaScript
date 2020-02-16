@@ -1,0 +1,58 @@
+<!-- UI of a music track -->
+<div>
+    Album: <label id="album"></label> <br />
+    Title: <label id="title">Geeha</label> <br />
+    Singer: <label id="singer"></label> <br />
+    Year: <label id="year"></label> <br />
+</div>
+
+<!-- Demonstratation of how to implement one-way binding from Model to View using Vanilla JavaScript leveraging Object.defineProperty method -->
+<script>
+    // #1. Class OneWayBinder which facilitates one way binding.
+    class OneWayBinder {
+        constructor(mapper) {
+            const self = this;
+            this.bindValue = null;
+            this.element = mapper.element;
+            this.elementAttr = mapper.elementAttr;
+            this.element[this.elementAttr] = mapper.model[mapper.modelProperty];
+            const descriptor = {
+                get() {
+                    return self.bindValue;
+                },
+                set(value) {
+                    self.bindValue = value;
+                    self.element[self.elementAttr] = value;
+                }
+            };
+            Object.defineProperty(mapper.model, mapper.modelProperty, descriptor);
+        }
+
+        static bind(mapper) {
+            return new OneWayBinder(mapper);
+        }
+    }
+
+    // #2. Model object musicTrack.
+    const musicTrack = {
+        title: 'Love Me Like You Do',
+        year: 2005,
+        album: 'Fifty Shades of Gray'
+    };
+
+    // #3. 'title' is the UI element to which the Model is bound to.
+    const elementToBind = document.querySelector('#title');
+
+    // #4. Bind Model musicTrack to UI title
+    OneWayBinder.bind({
+        model: musicTrack,
+        modelProperty: 'title',
+        element: elementToBind,
+        elementAttr: 'innerHTML'
+    });
+
+    // #5. Switch to another song title in the model
+    musicTrack.title = 'Crazy in Love';
+
+    // #6. Now, as title is changed, the UI bound to this title reflects that change via one-way binding implemented above.
+</script>
