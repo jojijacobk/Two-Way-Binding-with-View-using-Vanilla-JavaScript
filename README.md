@@ -1,4 +1,4 @@
-# Two-Way-Binding-with-View-using-VanillaJS
+# Two-Way-Binding-with-View-using-Vanilla-JavaScript
 An overly simplified demonstration of how to achieve Two Way Binding between a View and JavaScript Model Object
 ```javascript
 <!-- UI of a music track -->
